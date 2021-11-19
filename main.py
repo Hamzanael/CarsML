@@ -3,7 +3,7 @@ from typing import List
 
 import uvicorn
 from fastapi import FastAPI, Form
-from fastapi.responses import HTMLResponse
+from starlette.staticfiles import StaticFiles
 
 from normalizers import *
 
@@ -13,19 +13,11 @@ app = FastAPI(
 )
 
 
-def init(app: FastAPI):
-    with open('index.html', mode='r', encoding='utf-8') as index_file:
-        app.state.index = index_file.read()
-
-
 def get_car_name(car_make: str, car_model: str) -> str:
     return car_make.strip().lower() + ' ' + car_model.strip().lower()
 
 
-@app.get('/', response_class=HTMLResponse)
-async def index():
-    with open('index.html', mode='r', encoding='utf-8') as index_file:
-        return index_file.read()
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 
 @app.post('/search', response_model=int)
@@ -47,6 +39,5 @@ async def search(car_make: str = Form(...),
     return random.randint(1, 1000)
 
 
-init(app)
 if __name__ == '__main__':
     uvicorn.run(app, port=5000)
