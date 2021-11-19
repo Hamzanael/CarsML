@@ -53,7 +53,7 @@ def normalized(endpoint: Annotated[Any, Any]) -> Callable:
 
 def normalize(field, accepted) -> List[bool]:
     # raises ValueError if the color doesn't exist
-    field_index = CAR_COLORS.index(field)
+    field_index = accepted.index(field)
     norm = [False] * len(accepted)
     norm[field_index] = True
     return norm

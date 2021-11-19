@@ -8,16 +8,13 @@ from starlette.staticfiles import StaticFiles
 from normalizers import *
 
 app = FastAPI(
-    title='PROJECT',
-    description='DESCRIPTION',
+    title='CarsML',
+    description='Car price prediction API.',
 )
 
 
 def get_car_name(car_make: str, car_model: str) -> str:
     return car_make.strip().lower() + ' ' + car_model.strip().lower()
-
-
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 
 @app.post('/search', response_model=int)
@@ -30,6 +27,7 @@ async def search(car_make: str = Form(...),
                  options: List[str] = Form([])):
     car_name = get_car_name(car_make, car_model)
     car_name = normalize_car_name(car_name)
+    car_color = normalize_car_color(car_color)
     car_trans = normalize_car_trans(car_trans)
     options = normalize_options(options)
 
@@ -38,6 +36,8 @@ async def search(car_make: str = Form(...),
 
     return random.randint(1, 1000)
 
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 if __name__ == '__main__':
     uvicorn.run(app, port=5000)
