@@ -89,9 +89,8 @@
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <label class="form-label" for="car_make">Car Make</label>
-                                <select class="form-select" id="car_make" name="car_make" required>
+                                <select class="form-select" id="car_make" name="car_make" onchange="prepareCarModel()" required>
                                     <option disabled hidden selected value="">Choose...</option>
-                                    <option value="Kia">United States</option>
                                 </select>
                             </div>
 
@@ -127,16 +126,17 @@
 
                         <div class="row">
                             <div class="col-md-6">
-                                <label class="form-label" for="car_color">Year</label>
-                                <input class="form-control" list="car_color" name="car_color" placeholder="Enter year"
-                                    required>
-                                <datalist id="car_color">
-                                    <option value="2021">
-                                    <option value="2020">
-                                    <option value="2019">
-                                    <option value="2018">
-                                    <option value="2017">
-                                </datalist>
+                                <label class="form-label" for="car_color">car color</label>
+                                <select class="form-select" name="car_color" placeholder="Enter year" required>
+                                    <option disabled hidden selected value="">Choose...</option>
+                                    <option value="black">black </option>
+                                    <option value="blue">blue</option>
+                                    <option value="gold">gold</option>
+                                    <option value="grey">grey</option>
+                                    <option value="red">red</option>
+                                    <option value="silver">silver</option>
+                                    <option value="white">white</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="kilometers">kilometers</label>
@@ -151,7 +151,6 @@
                                     name="options">
                                 <label class="form-label">ABS</label>
                             </div>
-
 
                             <div style="float: left">
                                 <input class="form-check-input" style="margin-left:1rem" type="checkbox"
