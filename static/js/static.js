@@ -1,13 +1,24 @@
-let dataMap = new Map()
-dataMap.set("test", ["Hi", "Test", "Next"])
-dataMap.set("test2", ["Hi2", "Test2", "Next2"])
+let dataMap = {}
+getModels()
 
-addCarsMakers()
+function getModels() {
+    fetch('/models')
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data)
+            dataMap = new Map(Object.entries(data))
+            addCarsMakers(dataMap)
+        })
+    // console.log(dataMap)
+    // return dataMap
+}
 
-function addCarsMakers() {
+
+function addCarsMakers(dataMap) {
     let keysIterator = dataMap.keys()
     let key = keysIterator.next()
     while (!key.done) {
+        console.log(key)
         addToSelect(key.value, "car_make")
         key = keysIterator.next()
     }
@@ -41,21 +52,21 @@ function parseResults(data,result){
     document.getElementById("carFinalTransmission").innerHTML=keysIterator.next().value
     document.getElementById("carFinalColor").innerHTML=keysIterator.next().value
     document.getElementById("carFinalKilometers").innerHTML=keysIterator.next().value
-    document.getElementById("carFinalPrice").innerHTML="$"+result
+    document.getElementById("carFinalPrice").innerHTML= result
 }
 
-//Form Submission 
+//Form Submission
 document.body.addEventListener("submit", async function (event) {
     event.preventDefault();
     const form = event.target;
     const data = new URLSearchParams([...(new FormData(form))])
-    const result = await fetch("http://localhost:3000/", {
+    const result = await fetch("/search", {
             method: form.method,
             body: data,
         })
         .then((response) => response.json())
         .then((json) => {
-           parseResults(data,json.value)
+           parseResults(data,json)
         }
        
         )
